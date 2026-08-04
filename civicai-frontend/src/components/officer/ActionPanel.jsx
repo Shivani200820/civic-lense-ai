@@ -197,7 +197,7 @@ const ActionPanel = ({ complaint, onActionSuccess }) => {
               fullWidth
               variant="contained"
               startIcon={<Build />}
-              onClick={() => onActionSuccess("start")}
+              onClick={() => onActionSuccess("start-work")}
               sx={{
                 py: 1.5,
                 borderRadius: 2,
@@ -246,7 +246,7 @@ const ActionPanel = ({ complaint, onActionSuccess }) => {
                 fullWidth
                 variant="outlined"
                 startIcon={<Replay />}
-                onClick={() => onActionSuccess("restart")}
+                onClick={() => onActionSuccess("restart-work")}
                 sx={{
                   py: 1.5,
                   borderRadius: 2,
