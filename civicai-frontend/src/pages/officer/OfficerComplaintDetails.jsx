@@ -156,10 +156,13 @@ const OfficerComplaintDetails = () => {
   }
 
   const priority = getPriority(complaint.priority_id);
-  const getImageUrl = (url) => {
-    if (!url) return null;
-    return url.startsWith("uploads") ? `http://127.0.0.1:8000/${url}` : url;
-  };
+ const getImageUrl = (url) => {
+  if (!url) return null;
+
+  return url.startsWith("uploads")
+    ? `https://civic-lense-ai.onrender.com/${url}`
+    : url;
+};
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "#f5f7fa" }}>
