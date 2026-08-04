@@ -155,13 +155,18 @@ const OfficerComplaintDetails = () => {
     );
   }
 
-  const priority = getPriority(complaint.priority_id);
- const getImageUrl = (url) => {
+ const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://civic-lense-ai.onrender.com";
+
+const getImageUrl = (url) => {
   if (!url) return null;
 
-  return url.startsWith("uploads")
-    ? `https://civic-lense-ai.onrender.com/${url}`
-    : url;
+  if (url.startsWith("http")) {
+    return url;
+  }
+
+  return `${API_URL}/${url}`;
 };
 
   return (
