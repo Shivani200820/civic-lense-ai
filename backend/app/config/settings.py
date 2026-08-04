@@ -60,3 +60,15 @@ def get_settings():
 
 settings = get_settings()
 
+safe_url = settings.DATABASE_URL
+
+
+if "@" in safe_url and "://" in safe_url:
+    prefix, rest = safe_url.split("://", 1)
+    if "@" in rest and ":" in rest:
+        creds, host = rest.split("@", 1)
+        user = creds.split(":", 1)[0]
+        safe_url = f"{prefix}://{user}:****@{host}"
+
+print("DATABASE_URL =", repr(safe_url))
+
