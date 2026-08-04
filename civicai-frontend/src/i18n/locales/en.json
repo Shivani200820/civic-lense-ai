@@ -1,0 +1,6 @@
+{
+  "landing": { "hero_title": "Smart Civic Complaint & Resolution", "hero_sub": "Empowering citizens and authorities with AI." },
+  "nav": { "dashboard": "Dashboard", "profile": "Profile", "logout": "Logout", "language": "Language" },
+  "common": { "submit": "Submit", "cancel": "Cancel", "save": "Save Changes", "loading": "Loading..." },
+  "profile": { "title": "My Profile", "change_pwd": "Change Password" }
+}

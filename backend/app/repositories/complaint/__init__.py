@@ -1,0 +1,1 @@
+from .complaint_repository import ComplaintRepository
