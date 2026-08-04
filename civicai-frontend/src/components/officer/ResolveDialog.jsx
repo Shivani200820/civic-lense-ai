@@ -71,68 +71,52 @@ const ResolveDialog = ({ open, onClose, complaintId, onSuccess }) => {
   };
 
   // Resolve Complaint
-  const onSubmit = async (data) => {
-    dispatch(setLoading(true));
-    try {
-      // 🔥 FIX 1: Auto-transition status (Pending -> Accepted -> In Progress)
-      // Jar complaint aadich accept/start zali asel tar hya call fail hotil, tyamule tya ignore karaychya ahet.
-      try {
-        await officerService.acceptComplaint(complaintId);
-      } catch (e) {
-        // Ignore error if already accepted
-      }
+ const onSubmit = async (data) => {
+  dispatch(setLoading(true));
 
-      try {
-        await officerService.startWork(complaintId);
-      } catch (e) {
-        // Ignore error if already in progress
-      }
+  try {
+    const payload = {
+      resolution_remarks: data.resolution_remarks,
+      resolution_image_url: imageUrl || null,
+    };
 
-      // 🔥 FIX 2: Payload madhe sagle possible image keys pathvayche (422 error talnyasathi)
-      const payload = {
-        resolution_remarks: data.resolution_remarks,
-        resolution_image_url: imageUrl || null,
-        resolution_image: imageUrl || null,
-        image_url: imageUrl || null,
-        image: imageUrl || null,
-      };
+    await officerService.resolveComplaint(
+      complaintId,
+      payload
+    );
 
-      await officerService.resolveComplaint(complaintId, payload);
+    dispatch(
+      showSnackbar({
+        message: "Complaint resolved successfully",
+        severity: "success",
+      })
+    );
 
-      dispatch(
-        showSnackbar({
-          message: "Complaint resolved successfully",
-          severity: "success",
-        })
-      );
+    reset();
+    setPreview("");
+    setImageUrl("");
 
-      // Reset state
-      reset();
-      setPreview("");
-      setImageUrl("");
-      onClose();
-      
-      if (onSuccess) onSuccess();
-    } catch (err) {
-      console.error("Resolve failed:", err);
-      
-      // Error handling
-      const errorMsg = 
-        err?.response?.data?.message || 
-        err?.response?.data?.error || 
-        err?.response?.data?.detail ||
-        "Unable to resolve complaint. Please check if all fields are correct.";
+    onClose();
 
-      dispatch(
-        showSnackbar({
-          message: errorMsg,
-          severity: "error",
-        })
-      );
-    } finally {
-      dispatch(setLoading(false));
+    if (onSuccess) {
+      onSuccess();
     }
-  };
+
+  } catch (err) {
+
+    dispatch(
+      showSnackbar({
+        message:
+          err.response?.data?.detail ||
+          "Unable to resolve complaint.",
+        severity: "error",
+      })
+    );
+
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
 
   const handleClose = () => {
     reset();

@@ -64,6 +64,11 @@ const OfficerComplaintDetails = () => {
  const handleAction = async (action, payload = {}) => {
   try {
     dispatch(setLoading(true));
+      if (action === "refresh") {
+    const updated = await complaintService.getComplaintById(id);
+    setComplaint(updated);
+    return;
+}
 
     if (action === "accept") {
       await officerService.acceptComplaint(id);
@@ -85,6 +90,7 @@ const OfficerComplaintDetails = () => {
         );
         return;
       }
+    
 
       await officerService.startWork(id);
       dispatch(
@@ -94,34 +100,7 @@ const OfficerComplaintDetails = () => {
         })
       );
     }
-    if (action === "resolve") {
-      const remarks = payload?.resolution_remarks?.trim() || "";
-
-      if (remarks.length < 10) {
-        dispatch(
-          showSnackbar({
-            message: "Resolution remarks must be at least 10 characters.",
-            severity: "warning",
-          })
-        );
-        return;
-      }
-
-      // FIX: Only send image URL if it actually exists, otherwise omit to avoid 422
-      const resolvePayload = { resolution_remarks: remarks };
-      if (payload?.resolution_image_url) {
-        resolvePayload.resolution_image_url = payload.resolution_image_url;
-      }
-
-      await officerService.resolveComplaint(id, resolvePayload);
-
-      dispatch(
-        showSnackbar({
-          message: "Complaint resolved successfully",
-          severity: "success",
-        })
-      );
-    }
+    
 
     if (action === "restart-work") {
       await officerService.restartWork(id);

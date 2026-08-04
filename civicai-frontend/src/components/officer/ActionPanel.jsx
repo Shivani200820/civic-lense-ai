@@ -319,7 +319,9 @@ const ActionPanel = ({ complaint, onActionSuccess }) => {
         complaintId={id}
         onSuccess={() => {
           setResolveOpen(false);
-          onActionSuccess("resolve");
+
+          // फक्त डेटा refresh कर
+          onActionSuccess("refresh");
         }}
       />
     </>
