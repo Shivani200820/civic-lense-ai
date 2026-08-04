@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
@@ -168,7 +169,7 @@ and administrators to monitor analytics and system performance.
 
     lifespan=lifespan,
 )
-
+os.makedirs("uploads", exist_ok=True)
 
 
 # -----------------------------

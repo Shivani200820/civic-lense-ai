@@ -13,9 +13,6 @@ api_key = os.getenv("GEMINI_API_KEY")
 if not api_key:
     raise Exception("GEMINI_API_KEY not found.")
 
-print("Loaded API Key:", api_key)
-print("API Key Length:", len(api_key))
-print("Model:", "gemini-3.6-flash")
 
 client = genai.Client(api_key=api_key)
 
